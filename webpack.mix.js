@@ -1,6 +1,8 @@
 const mix = require("laravel-mix");
 const tailwindcss = require("tailwindcss");
 const glob = require("glob-all");
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
 
 const assetSrcPath = "src/";
 const scriptsSrcPath = assetSrcPath + "js/";
@@ -22,3 +24,14 @@ mix.js(`${scriptsSrcPath}main.js`, `${scriptsDestPath}main.js`);
 // 		processCssUrls: false,
 // 		postCss: [tailwindcss()]
 // 	});
+
+// mix.webpackConfig({
+//   plugins: [
+//     // new HtmlWebpackPlugin({
+//     //   inlineSource: ".(js|css)$",
+//     // }),
+//     // new HtmlWebpackInlineSourcePlugin(),
+//   ],
+// });
+// plugins: [
+// ]

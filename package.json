@@ -10,6 +10,8 @@
   "devDependencies": {
     "cross-env": "^7.0.2",
     "glob-all": "^3.2.1",
+    "html-webpack-inline-source-plugin": "0.0.10",
+    "html-webpack-plugin": "^4.3.0",
     "laravel-mix": "^5.0.4",
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",

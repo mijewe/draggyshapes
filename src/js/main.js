@@ -14,65 +14,58 @@ Helpers.ready(() => {
   });
 
   var layer = new Konva.Layer();
-  var rectX = stage.width() / 2 - 50;
-  var rectY = stage.height() / 2 - 25;
 
-  for (let index = 0; index < 20; index++) {
-    const box = createRandomShape();
+  stage.add(layer);
 
-    layer.add(box);
-    stage.add(layer);
+  let indexArr = [];
+  for (let i = 0; i < 42; i++) {
+    indexArr.push(i);
+  }
+  indexArr = shuffle(indexArr);
+
+  for (let i = 0; i < 8; i++) {
+    const index = indexArr[i];
+
+    Konva.Image.fromURL(`/dist/img/256w/Asset ${index}.png`, (image) => {
+      image.setAttrs({
+        x: getRandomX(),
+        y: getRandomY(),
+        draggable: true,
+      });
+
+      image.on("mouseover", function() {
+        document.body.style.cursor = "pointer";
+      });
+
+      image.on("mouseout", function() {
+        document.body.style.cursor = "default";
+      });
+
+      layer.add(image);
+      layer.draw();
+    });
   }
 });
 
-const createRandomShape = () => {
-  let shape;
-  if (Math.random() > 0.5) {
-    shape = createNewBox();
-  } else {
-    shape = createNewWedge();
-  }
+// const createRandomShape = () => {
+//   let shape;
+//   if (Math.random() > 0.5) {
+//     shape = createNewBox();
+//   } else {
+//     shape = createNewWedge();
+//   }
 
-  // add cursor styling
-  shape.on("mouseover", function() {
-    document.body.style.cursor = "pointer";
-  });
+//   // add cursor styling
+//   shape.on("mouseover", function() {
+//     document.body.style.cursor = "pointer";
+//   });
 
-  shape.on("mouseout", function() {
-    document.body.style.cursor = "default";
-  });
+//   shape.on("mouseout", function() {
+//     document.body.style.cursor = "default";
+//   });
 
-  return shape;
-};
-
-const createNewBox = () => {
-  const box = new Konva.Rect({
-    x: getRandomX(),
-    y: getRandomY(),
-    width: 100,
-    height: 50,
-    fill: "green",
-    stroke: "black",
-    strokeWidth: 4,
-    draggable: true,
-  });
-
-  return box;
-};
-
-const createNewWedge = () => {
-  return new Konva.Wedge({
-    x: getRandomX(),
-    y: getRandomY(),
-    radius: 50,
-    angle: getRandomRadius(),
-    fill: "red",
-    stroke: "black",
-    strokeWidth: 4,
-    rotation: getRandomRotation(),
-    draggable: true,
-  });
-};
+//   return shape;
+// };
 
 const getRandomNumber = (min, max) => {
   return Math.random() * max + min;
@@ -86,10 +79,36 @@ const getRandomY = () => {
   return getRandomNumber(0, window.stage.height());
 };
 
-const getRandomRadius = () => {
-  return getRandomNumber(60, 180);
+// const getRandomRadius = () => {
+//   return getRandomNumber(60, 180);
+// };
+
+// const getRandomRotation = () => {
+//   return getRandomNumber(0, 360);
+// };
+
+const shuffle = (a) => {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 };
 
-const getRandomRotation = () => {
-  return getRandomNumber(0, 360);
+window.printCanvas = () => {
+  var dataUrl = document.querySelector("canvas").toDataURL(); //attempt to save base64 string to server using this var
+  var windowContent = "<!DOCTYPE html>";
+  windowContent += "<html>";
+  windowContent += "<head><title>Print canvas</title></head>";
+  windowContent += "<body>";
+  windowContent += '<img src="' + dataUrl + '">';
+  windowContent += "</body>";
+  windowContent += "</html>";
+  var printWin = window.open("", "", "width=340,height=260");
+  printWin.document.open();
+  printWin.document.write(windowContent);
+  printWin.document.close();
+  printWin.focus();
+  printWin.print();
+  printWin.close();
 };
