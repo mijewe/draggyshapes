@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<title>Draggy Shapes</title>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-				background-color: #f0f0f0;
-			}
-		</style>
 
-		<script src="/dist/js/main.js"></script>
+<head>
+	<meta charset="utf-8" />
+	<title>Draggy Shapes</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #f0f0f0;
+		}
+	</style>
 
-	</head>
-	<body>
-		<div id="container"></div>
-	</body>
+	<link rel="stylesheet" href="dist/css/main.css">
+	<script src="/dist/js/main.js"></script>
+
+</head>
+
+<body>
+
+	<div class="w-screen h-screen p-8">
+		<div class="w-full h-full border-8 border-black js_canvas-container">
+			<div id="container"></div>
+		</div>
+	</div>
+
+</body>
+
 </html>

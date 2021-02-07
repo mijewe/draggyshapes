@@ -6,13 +6,19 @@ const glob = require("glob-all");
 
 const assetSrcPath = "src/";
 const scriptsSrcPath = assetSrcPath + "js/";
-// const stylesSrcPath = assetSrcPath + "scss/";
+const stylesSrcPath = assetSrcPath + "scss/";
 const imgSrcPath = assetSrcPath + "img/";
 
 const assetDestPath = "dist/";
 const scriptsDestPath = assetDestPath + "js/";
-// const stylesDestPath = assetDestPath + "css/";
+const stylesDestPath = assetDestPath + "css/";
 const imgDestPath = assetDestPath + "img/";
+
+// compile styles.
+mix.sass(`${stylesSrcPath}main.scss`, stylesDestPath).options({
+  processCssUrls: false,
+  postCss: [tailwindcss("./tailwind.config.js")],
+});
 
 // compile scripts.
 mix.js(`${scriptsSrcPath}main.js`, `${scriptsDestPath}main.js`);

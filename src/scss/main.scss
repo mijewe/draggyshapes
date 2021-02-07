@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/*!*
+ *	Draggy Shapes
+ *	[URL]
+ *
+ *	by:
+ *	Georgia Burns
+ *	Michael Westwood @mijewe
+ *	February 2021
+ *
+ */
+
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+/*! purgecss start ignore */
+// @import "base/__base";
+
+// @import "typography";
+
+// @import "components/__components";
+
+// @import "misc";
+/*! purgecss end ignore */
