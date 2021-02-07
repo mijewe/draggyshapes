@@ -1,11 +1,26 @@
 import { Helpers } from "./components/Helpers.js";
 import Konva from "konva";
 
-Helpers.ready(() => {
+Helpers.ready(async () => {
+  window.svgs = [];
+
   console.log("ready!");
+
+  // await loadPaths();
 
   var width = window.innerWidth;
   var height = window.innerHeight;
+
+  const colours = [
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "indigo",
+    "violet",
+  ];
+  const defaultColour = colours[0];
 
   window.stage = new Konva.Stage({
     container: "container",
@@ -17,35 +32,79 @@ Helpers.ready(() => {
 
   stage.add(layer);
 
+  // randomise the 42 available images
   let indexArr = [];
-  for (let i = 0; i < 42; i++) {
+  for (let i = 0; i < 15; i++) {
     indexArr.push(i);
   }
   indexArr = shuffle(indexArr);
 
+  let shapes = [];
+
+  // const shape = getImageFromPathIndex(0);
+
+  // console.log(shape);
+
   for (let i = 0; i < 8; i++) {
     const index = indexArr[i];
 
-    Konva.Image.fromURL(`/dist/img/256w/Asset ${index}.png`, (image) => {
-      image.setAttrs({
-        x: getRandomX(),
-        y: getRandomY(),
-        draggable: true,
-      });
+    const shape = await getImageFromPathIndex(i);
 
-      image.on("mouseover", function() {
-        document.body.style.cursor = "pointer";
-      });
-
-      image.on("mouseout", function() {
-        document.body.style.cursor = "default";
-      });
-
-      layer.add(image);
-      layer.draw();
+    // show the hand cursor when hovering over the shape
+    shape.on("mouseover", function() {
+      document.body.style.cursor = "pointer";
     });
+
+    shape.on("mouseout", function() {
+      document.body.style.cursor = "default";
+    });
+
+    // cycle through the colours when clicking on the shape
+    shape.on("click", (e) => {
+      // e.target.fill("green").draw();
+    });
+
+    //   // add the shape to the layer
+    layer.add(shape);
+
+    //   // add the layer to the stage
+    stage.add(layer);
   }
 });
+
+// const loadPaths = async () => {
+
+//   for (const i = 0; i < 42; i++) {
+//     await loadPathFromIndex(i);
+//   }
+
+// }
+
+const loadPathFromIndex = async (i) => {
+  return await fetch(`/src/img/SVG/${i}.svg`).then((resp) => {
+    return resp.text().then((svg) => {
+      return svg;
+    });
+  });
+};
+
+const getImageFromPathIndex = async (index) => {
+  const pathData = await loadPathFromIndex(index);
+
+  console.log(pathData);
+
+  return new Konva.Path({
+    x: getRandomX(),
+    y: getRandomY(),
+    data: pathData,
+    fill: "green",
+    scale: {
+      x: 2,
+      y: 2,
+    },
+    draggable: true,
+  });
+};
 
 // const createRandomShape = () => {
 //   let shape;
