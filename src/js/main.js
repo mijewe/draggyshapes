@@ -10,21 +10,28 @@ class DraggyShapes {
     this.canvasHeight = this.canvasEl.clientHeight;
     this.padding = data.padding ?? 100;
 
+    this.numPaths = 15;
+    this.initialNumPaths = 10;
+
     this.init();
   }
 
-  init() {
+  async init() {
     this.stage = new Konva.Stage({
       container: "container",
       width: this.canvasWidth,
       height: this.canvasHeight,
     });
 
+    await this.cachePaths();
+
     this.initLayer();
 
     this.bindBgButtons();
 
     this.bindResetButton();
+
+    this.bindAddShapeButton();
 
     // do not show context menu on right click
     this.stage.on("contentContextmenu", (e) => {
@@ -37,49 +44,47 @@ class DraggyShapes {
 
     this.stage.add(this.layer);
 
-    this.addShapes(10);
+    this.addShapes();
   }
 
-  async addShapes(n) {
-    const self = this;
-
-    // randomise the 15 available paths
-    let indexArr = [];
-    for (let i = 0; i < 15; i++) {
-      indexArr.push(i);
-    }
-    indexArr = this.shuffle(indexArr);
-
+  async addShapes(n = this.initialNumPaths) {
     for (let i = 0; i < n; i++) {
-      const shape = await this.getImageFromPathIndex(i);
-
-      // show the hand cursor when hovering over the shape
-      shape.on("mouseover", function() {
-        document.body.style.cursor = "pointer";
-      });
-      shape.on("mouseout", function() {
-        document.body.style.cursor = "default";
-      });
-
-      // cycle through the colours when left clicking on the shape
-      // bring the shape to the front when right clicking
-      shape.on("click", (e) => {
-        console.log(e.evt.button);
-
-        if (e.evt.button === 0) {
-          e.target.fill(self.getNextColour(e.target.fill())).draw();
-        } else if (e.evt.button === 2) {
-          e.target.moveToTop();
-          e.target.draw();
-        }
-      });
-
-      // add the shape to the layer
-      this.layer.add(shape);
-
-      // add the layer to the stage
-      this.stage.add(this.layer);
+      this.addShape();
     }
+  }
+
+  async addShape() {
+    const self = this;
+    const r = Math.floor(this.getRandomNumber(0, this.numPaths));
+
+    const shape = await this.getImageFromPathIndex(r);
+
+    // show the hand cursor when hovering over the shape
+    shape.on("mouseover", function() {
+      document.body.style.cursor = "pointer";
+    });
+    shape.on("mouseout", function() {
+      document.body.style.cursor = "default";
+    });
+
+    // cycle through the colours when left clicking on the shape
+    // bring the shape to the front when right clicking
+    shape.on("click", (e) => {
+      console.log(e.evt.button);
+
+      if (e.evt.button === 0) {
+        e.target.fill(self.getNextColour(e.target.fill())).draw();
+      } else if (e.evt.button === 2) {
+        e.target.moveToTop();
+        e.target.draw();
+      }
+    });
+
+    // add the shape to the layer
+    this.layer.add(shape);
+
+    // add the layer to the stage
+    this.stage.add(this.layer);
   }
 
   bindBgButtons() {
@@ -102,7 +107,6 @@ class DraggyShapes {
     const btn = document.querySelector(".js_reset");
 
     btn.addEventListener("click", (e) => {
-      console.log(e);
       this.resetCanvas();
     });
   }
@@ -110,6 +114,14 @@ class DraggyShapes {
   resetCanvas() {
     this.layer.destroy();
     this.initLayer();
+  }
+
+  bindAddShapeButton() {
+    const btn = document.querySelector(".js_add-shape");
+
+    btn.addEventListener("click", () => {
+      this.addShape();
+    });
   }
 
   async getImageFromPathIndex(index) {
@@ -127,6 +139,12 @@ class DraggyShapes {
       },
       draggable: true,
     });
+  }
+
+  async cachePaths() {
+    for (let i = 0; i < this.numPaths; i++) {
+      await this.loadPathFromIndex(i);
+    }
   }
 
   getNextColour(currentColour) {
@@ -187,7 +205,7 @@ class DraggyShapes {
       return cached;
     }
 
-    return await fetch(`/src/img/SVG/${i}.svg`).then((resp) => {
+    return await fetch(`/src/img/paths/${i}.svg`).then((resp) => {
       return resp.text().then((svg) => {
         sessionStorage.setItem(cacheKey, svg);
         return svg;
