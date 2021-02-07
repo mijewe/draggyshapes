@@ -4,8 +4,7 @@ module.exports = {
   },
   theme: {
     fontFamily: {
-      display: ["arial", "serif"],
-      body: ["times", "serif"],
+      body: ["Work Sans", "sans-serif"],
     },
     colors: {
       orange: "#FFB04D",

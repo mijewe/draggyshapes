@@ -20,18 +20,24 @@ class DraggyShapes {
       height: this.canvasHeight,
     });
 
-    this.layer = new Konva.Layer();
-
-    this.stage.add(this.layer);
-
-    this.addShapes(10);
+    this.initLayer();
 
     this.bindBgButtons();
+
+    this.bindResetButton();
 
     // do not show context menu on right click
     this.stage.on("contentContextmenu", (e) => {
       e.evt.preventDefault();
     });
+  }
+
+  initLayer() {
+    this.layer = new Konva.Layer();
+
+    this.stage.add(this.layer);
+
+    this.addShapes(10);
   }
 
   async addShapes(n) {
@@ -88,6 +94,22 @@ class DraggyShapes {
         this.addClasses(this.canvasEl, classes);
       });
     }
+  }
+
+  bindResetButton() {
+    const self = this;
+
+    const btn = document.querySelector(".js_reset");
+
+    btn.addEventListener("click", (e) => {
+      console.log(e);
+      this.resetCanvas();
+    });
+  }
+
+  resetCanvas() {
+    this.layer.destroy();
+    this.initLayer();
   }
 
   async getImageFromPathIndex(index) {
@@ -157,8 +179,17 @@ class DraggyShapes {
   }
 
   async loadPathFromIndex(i) {
+    const cacheKey = `path_${i}`;
+
+    const cached = sessionStorage.getItem(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
+
     return await fetch(`/src/img/SVG/${i}.svg`).then((resp) => {
       return resp.text().then((svg) => {
+        sessionStorage.setItem(cacheKey, svg);
         return svg;
       });
     });
