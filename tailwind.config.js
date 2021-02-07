@@ -7,33 +7,22 @@ module.exports = {
       display: ["arial", "serif"],
       body: ["times", "serif"],
     },
-    fontSize: {},
-    borderRadius: {
-      none: "0",
-      sm: ".25rem",
-      DEFAULT: ".4rem",
-    },
-    lineHeight: {
-      lessthan: 0.9,
-      none: 1,
-      tight: 1.15,
-      snug: 1.375,
-      normal: 1.5,
-      relaxed: 1.65,
-      loose: 1.9,
-    },
-    extend: {
-      boxShadow: {
-        gray: "0 1px 20px 0 rgba(0, 0, 0, .1)",
+    colors: {
+      orange: "#FFB04D",
+      green: "#C7F464",
+      red: "#FF6B64",
+      blue: "#4ECCC3",
+      black: "#000",
+      grey: {
+        200: "#D9D9D9",
+        800: "#575756",
       },
+      white: "#fff",
     },
     container: {
       center: true,
       padding: "1.5rem",
     },
-  },
-  variants: {
-    backgroundColor: ["group-hover, hover, responsive"],
   },
   plugins: [],
 };

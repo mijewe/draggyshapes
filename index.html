@@ -21,7 +21,35 @@
 <body>
 
 	<div class="w-screen h-screen p-8">
-		<div class="w-full h-full border-8 border-black js_canvas-container">
+		<div class="w-full h-full border-8 border-black js_canvas-container relative theme-light bg-white">
+
+			<div class="flex justify-between items-center p-8 absolute w-full z-10">
+
+				<div>
+
+					<div>
+						<label for="bg-colour" class="text-theme">Background</label>
+					</div>
+
+					<div>
+						<input class="background-radio border-theme js_change-bg bg-white"		type="radio" name="bg-colour" value="white"		data-classes="theme-light bg-white">
+						<input class="background-radio border-theme js_change-bg bg-black"		type="radio" name="bg-colour" value="black"		data-classes="theme-dark bg-black">
+						<input class="background-radio border-theme js_change-bg bg-grey-800"	type="radio" name="bg-colour" value="grey-800"	data-classes="theme-dark bg-grey-800">
+						<input class="background-radio border-theme js_change-bg bg-grey-200"	type="radio" name="bg-colour" value="grey-200"	data-classes="theme-light bg-grey-200">
+						<input class="background-radio border-theme js_change-bg bg-red"		type="radio" name="bg-colour" value="red"	data-classes="theme-light bg-red">
+						<input class="background-radio border-theme js_change-bg bg-green"		type="radio" name="bg-colour" value="green"		data-classes="theme-light bg-green">
+						<input class="background-radio border-theme js_change-bg bg-blue"		type="radio" name="bg-colour" value="blue"		data-classes="theme-light bg-blue">
+						<input class="background-radio border-theme js_change-bg bg-orange"		type="radio" name="bg-colour" value="orange"	data-classes="theme-light bg-orange">
+					</div>
+
+				</div>
+
+				<div>
+					<a href="about">About</a>
+				</div>
+
+			</div>
+
 			<div id="container"></div>
 		</div>
 	</div>

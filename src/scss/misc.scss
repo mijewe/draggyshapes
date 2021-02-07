@@ -1,0 +1,27 @@
+.background-radio {
+  @apply border-4 appearance-none rounded-full w-8 h-8;
+
+  &:hover {
+    @apply cursor-pointer;
+  }
+}
+
+.theme-dark {
+  .text-theme {
+    @apply text-white;
+  }
+
+  .border-theme {
+    @apply border-white;
+  }
+}
+
+.theme-light {
+  .text-theme {
+    @apply text-black;
+  }
+
+  .border-theme {
+    @apply border-black;
+  }
+}

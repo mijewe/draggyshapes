@@ -3,15 +3,7 @@ import Konva from "konva";
 
 class DraggyShapes {
   constructor(data = {}) {
-    this.colours = data.colours || [
-      "red",
-      "orange",
-      "yellow",
-      "green",
-      "blue",
-      "indigo",
-      "violet",
-    ];
+    this.colours = data.colours || ["#FFB04D", "#C7F464", "#FF6B64", "#4ECCC3"];
 
     this.canvasEl = document.querySelector(".js_canvas-container");
     this.canvasWidth = this.canvasEl.clientWidth;
@@ -33,6 +25,13 @@ class DraggyShapes {
     this.stage.add(this.layer);
 
     this.addShapes(10);
+
+    this.bindBgButtons();
+
+    // do not show context menu on right click
+    this.stage.on("contentContextmenu", (e) => {
+      e.evt.preventDefault();
+    });
   }
 
   async addShapes(n) {
@@ -52,14 +51,21 @@ class DraggyShapes {
       shape.on("mouseover", function() {
         document.body.style.cursor = "pointer";
       });
-
       shape.on("mouseout", function() {
         document.body.style.cursor = "default";
       });
 
-      // cycle through the colours when clicking on the shape
+      // cycle through the colours when left clicking on the shape
+      // bring the shape to the front when right clicking
       shape.on("click", (e) => {
-        e.target.fill(self.getNextColour(e.target.fill())).draw();
+        console.log(e.evt.button);
+
+        if (e.evt.button === 0) {
+          e.target.fill(self.getNextColour(e.target.fill())).draw();
+        } else if (e.evt.button === 2) {
+          e.target.moveToTop();
+          e.target.draw();
+        }
       });
 
       // add the shape to the layer
@@ -67,6 +73,20 @@ class DraggyShapes {
 
       // add the layer to the stage
       this.stage.add(this.layer);
+    }
+  }
+
+  bindBgButtons() {
+    const self = this;
+    for (const el of document.querySelectorAll(".js_change-bg")) {
+      el.addEventListener("click", (e) => {
+        const classes = e.target.dataset["classes"];
+
+        this.removeClassesWithPrefix(this.canvasEl, "theme-");
+        this.removeClassesWithPrefix(this.canvasEl, "bg-");
+
+        this.addClasses(this.canvasEl, classes);
+      });
     }
   }
 
@@ -113,7 +133,7 @@ class DraggyShapes {
   getRandomColour() {
     const numColours = this.colours.length;
     const randomIndex = Math.round(Math.random() * numColours);
-    return this.colours[randomIndex] || "green";
+    return this.colours[randomIndex] || this.colours[0];
   }
 
   shuffle(a) {
@@ -122,6 +142,18 @@ class DraggyShapes {
       [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
+  }
+
+  addClasses(el, classes) {
+    const arr = classes.split(" ");
+    el.classList.add(...arr);
+  }
+
+  removeClassesWithPrefix(el, prefix) {
+    const classes = el.className
+      .split(" ")
+      .filter((c) => !c.startsWith(prefix));
+    el.className = classes.join(" ").trim();
   }
 
   async loadPathFromIndex(i) {
