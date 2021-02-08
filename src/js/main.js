@@ -33,6 +33,8 @@ class DraggyShapes {
 
     this.setCanvasSize();
 
+    this.setScale();
+
     await this.cachePaths();
 
     this.initLayer();
@@ -60,6 +62,17 @@ class DraggyShapes {
 
     this.stage.width(this.canvasWidth);
     this.stage.height(this.canvasHeight);
+  }
+
+  setScale() {
+    const w = this.canvasEl.clientWidth;
+    const h = this.canvasEl.clientHeight;
+
+    if (w < 768 || h < 768) {
+      this.scale = 1;
+    } else {
+      this.scale = 2;
+    }
   }
 
   initLayer() {
@@ -188,8 +201,8 @@ class DraggyShapes {
       data: pathData,
       fill: self.getRandomColour(),
       scale: {
-        x: 2,
-        y: 2,
+        x: this.scale,
+        y: this.scale,
       },
       draggable: true,
     });
