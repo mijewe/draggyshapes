@@ -4,7 +4,16 @@ import Swal from "sweetalert2";
 
 class DraggyShapes {
   constructor(data = {}) {
-    this.colours = data.colours || ["#FFB04D", "#C7F464", "#FF6B64", "#4ECCC3"];
+    this.colours = data.colours || [
+      "#FFB04D",
+      "#C7F464",
+      "#FF6B64",
+      "#4ECCC3",
+      "#000",
+      "#D9D9D9",
+      "#575756",
+      "#fff",
+    ];
 
     this.canvasEl = document.querySelector(".js_canvas-container");
     this.canvasWidth = this.canvasEl.clientWidth;
