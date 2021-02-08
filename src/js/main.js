@@ -1,6 +1,13 @@
-import { Helpers } from "./components/Helpers.js";
 import Konva from "konva";
 import Swal from "sweetalert2";
+
+function ready(fn) {
+  if (document.readyState != "loading") {
+    fn();
+  } else {
+    document.addEventListener("DOMContentLoaded", fn);
+  }
+}
 
 class DraggyShapes {
   constructor(data = {}) {
@@ -281,7 +288,7 @@ class DraggyShapes {
   }
 }
 
-Helpers.ready(async () => {
+ready(async () => {
   new DraggyShapes();
 
   const aboutBtn = document.querySelector(".js_about-btn");
@@ -293,6 +300,7 @@ Helpers.ready(async () => {
       html: aboutContentEl.innerHTML,
       showCloseButton: true,
       showConfirmButton: false,
+      focusCancel: false,
     });
   });
 });

@@ -5,7 +5,7 @@ module.exports = {
   },
   theme: {
     fontFamily: {
-      body: ["Work Sans", "sans-serif"],
+      body: ["brandon-grotesque", "sans-serif"],
     },
     colors: {
       orange: "#FFB04D",

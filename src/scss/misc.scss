@@ -1,5 +1,5 @@
 .background-radio {
-  @apply border-4 appearance-none rounded-full w-8 h-8;
+  @apply border-2 md:border-4 appearance-none rounded-full w-6 h-6 md:w-8 md:h-8;
 
   &:hover {
     @apply cursor-pointer;
@@ -48,14 +48,27 @@
   }
 }
 
-.swal2-styled.swal2-confirm {
-  background-color: #4eccc3 !important;
-}
-
 .swal2-title {
   color: #000 !important;
+  text-transform: uppercase !important;
+}
+
+.swal2-close {
+  color: #ff6b64 !important;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+
+  &:hover {
+    color: #ffb04d !important;
+  }
 }
 
 a {
-  @apply text-red font-bold;
+  @apply text-red font-bold transition-colors duration-100 ease-in-out;
+
+  &:hover {
+    @apply text-orange;
+  }
 }
