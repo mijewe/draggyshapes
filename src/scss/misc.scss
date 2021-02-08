@@ -26,13 +26,34 @@
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  .dark\:theme-dark {
+    .text-theme {
+      @apply text-white;
+    }
+
+    .border-theme {
+      @apply border-white;
+    }
+  }
+}
+
 .swal2-content,
 .swal2-header {
   @apply font-body;
+  color: #000 !important;
+
+  strong {
+    @apply uppercase text-black;
+  }
 }
 
 .swal2-styled.swal2-confirm {
   background-color: #4eccc3 !important;
+}
+
+.swal2-title {
+  color: #000 !important;
 }
 
 a {

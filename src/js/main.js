@@ -16,8 +16,8 @@ class DraggyShapes {
     ];
 
     this.canvasEl = document.querySelector(".js_canvas-container");
-    this.canvasWidth = this.canvasEl.clientWidth;
-    this.canvasHeight = this.canvasEl.clientHeight;
+    this.themerEl = document.querySelector(".js_themer");
+
     this.padding = data.padding ?? 100;
 
     this.numPaths = 15;
@@ -29,9 +29,9 @@ class DraggyShapes {
   async init() {
     this.stage = new Konva.Stage({
       container: "container",
-      width: this.canvasWidth,
-      height: this.canvasHeight,
     });
+
+    this.setCanvasSize();
 
     await this.cachePaths();
 
@@ -47,6 +47,19 @@ class DraggyShapes {
     this.stage.on("contentContextmenu", (e) => {
       e.evt.preventDefault();
     });
+
+    // resize canvas on window resize
+    window.addEventListener("resize", (e) => {
+      this.setCanvasSize();
+    });
+  }
+
+  setCanvasSize() {
+    this.canvasWidth = this.canvasEl.clientWidth;
+    this.canvasHeight = this.canvasEl.clientHeight;
+
+    this.stage.width(this.canvasWidth);
+    this.stage.height(this.canvasHeight);
   }
 
   initLayer() {
@@ -69,6 +82,9 @@ class DraggyShapes {
 
     const shape = await this.getImageFromPathIndex(r);
 
+    // Hammer JS is required for the "press" event
+    new Hammer(shape, { domEvents: true });
+
     // show the hand cursor when hovering over the shape
     shape.on("mouseover", function() {
       document.body.style.cursor = "pointer";
@@ -77,17 +93,32 @@ class DraggyShapes {
       document.body.style.cursor = "default";
     });
 
-    // cycle through the colours when left clicking on the shape
-    // bring the shape to the front when right clicking
-    shape.on("click", (e) => {
-      console.log(e.evt.button);
+    // ==============
+    // Mouse gestures
+    // ==============
 
+    // Left Click : change colour
+    // Right Click : bring to front
+    shape.on("click", (e) => {
       if (e.evt.button === 0) {
-        e.target.fill(self.getNextColour(e.target.fill())).draw();
+        this.changeShapeColour(e.target);
       } else if (e.evt.button === 2) {
-        e.target.moveToTop();
-        e.target.draw();
+        this.bringShapeToFront(e.target);
       }
+    });
+
+    // ==============
+    // Touch gestures
+    // ==============
+
+    // Double Tap : change colour
+    shape.on("dbltap", (e) => {
+      this.changeShapeColour(e.target);
+    });
+
+    // Long Press : bring to front
+    shape.on("press", (e) => {
+      this.bringShapeToFront(e.target);
     });
 
     // add the shape to the layer
@@ -97,16 +128,29 @@ class DraggyShapes {
     this.stage.add(this.layer);
   }
 
+  changeShapeColour(shape) {
+    shape.fill(this.getNextColour(shape.fill())).draw();
+  }
+
+  bringShapeToFront(shape) {
+    shape.moveToTop();
+    shape.draw();
+  }
+
   bindBgButtons() {
     const self = this;
     for (const el of document.querySelectorAll(".js_change-bg")) {
       el.addEventListener("click", (e) => {
-        const classes = e.target.dataset["classes"];
+        const themeClass = e.target.dataset["themeclass"];
+        const bgClass = e.target.dataset["bgclass"];
 
-        this.removeClassesWithPrefix(this.canvasEl, "theme-");
+        this.removeClassesWithPrefix(this.themerEl, "theme-");
+        this.removeClassesWithPrefix(this.themerEl, "dark:theme-");
         this.removeClassesWithPrefix(this.canvasEl, "bg-");
+        this.removeClassesWithPrefix(this.canvasEl, "dark:bg-");
 
-        this.addClasses(this.canvasEl, classes);
+        this.addClasses(this.themerEl, themeClass);
+        this.addClasses(this.canvasEl, bgClass);
       });
     }
   }
@@ -234,6 +278,8 @@ Helpers.ready(async () => {
     Swal.fire({
       title: "Welcome to Geo Shapes",
       html: aboutContentEl.innerHTML,
+      showCloseButton: true,
+      showConfirmButton: false,
     });
   });
 });
