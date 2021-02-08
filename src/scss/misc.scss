@@ -1,0 +1,61 @@
+.background-radio {
+  @apply border-4 appearance-none rounded-full w-8 h-8;
+
+  &:hover {
+    @apply cursor-pointer;
+  }
+}
+
+.theme-dark {
+  .text-theme {
+    @apply text-white;
+  }
+
+  .border-theme {
+    @apply border-white;
+  }
+}
+
+.theme-light {
+  .text-theme {
+    @apply text-black;
+  }
+
+  .border-theme {
+    @apply border-black;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark\:theme-dark {
+    .text-theme {
+      @apply text-white;
+    }
+
+    .border-theme {
+      @apply border-white;
+    }
+  }
+}
+
+.swal2-content,
+.swal2-header {
+  @apply font-body;
+  color: #000 !important;
+
+  strong {
+    @apply uppercase text-black;
+  }
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: #4eccc3 !important;
+}
+
+.swal2-title {
+  color: #000 !important;
+}
+
+a {
+  @apply text-red font-bold;
+}

@@ -1,21 +1,111 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<title>Draggy Shapes</title>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-				background-color: #f0f0f0;
-			}
-		</style>
 
-		<script src="/dist/js/main.js"></script>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="/dist/img/favicon.png"/>
 
-	</head>
-	<body>
-		<div id="container"></div>
-	</body>
+	<title>Geo Shapes by Georgia Burns</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #f0f0f0;
+		}
+	</style>
+
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet"> 
+
+	<link rel="stylesheet" href="dist/css/main.css">
+	<script src="https://konvajs.org/js/hammer-konva.js"></script>
+	<script src="/dist/js/main.js"></script>
+
+</head>
+
+<body>
+
+	<div class="w-screen h-screen md:p-8 font-bold font-body uppercase js_themer theme-light dark:theme-dark bg-grey-200 dark:bg-grey-800">
+		<div class="w-full h-full md:border-8 border-black js_canvas-container relative bg-white dark:bg-grey-800">
+
+			<div class="flex justify-between items-start p-4 md:p-8 pb-0 fixed md:absolute w-full z-10 top-0">
+
+				<div>
+
+					<div>
+						<label for="bg-colour" class="text-theme uppercase block leading-3 mb-2">Background</label>
+					</div>
+
+					<div>
+						<input class="background-radio border-theme js_change-bg bg-white"		type="radio" name="bg-colour" value="white"		data-themeclass="theme-light"	data-bgclass="bg-white">
+						<input class="background-radio border-theme js_change-bg bg-black"		type="radio" name="bg-colour" value="black"		data-themeclass="theme-dark"	data-bgclass="bg-black">
+						<input class="background-radio border-theme js_change-bg bg-grey-800"	type="radio" name="bg-colour" value="grey-800"	data-themeclass="theme-dark"	data-bgclass="bg-grey-800">
+						<input class="background-radio border-theme js_change-bg bg-grey-200"	type="radio" name="bg-colour" value="grey-200"	data-themeclass="theme-light"	data-bgclass="bg-grey-200">
+						<input class="background-radio border-theme js_change-bg bg-red"		type="radio" name="bg-colour" value="red"		data-themeclass="theme-light"	data-bgclass="bg-red">
+						<input class="background-radio border-theme js_change-bg bg-green"		type="radio" name="bg-colour" value="green"		data-themeclass="theme-light"	data-bgclass="bg-green">
+						<input class="background-radio border-theme js_change-bg bg-blue"		type="radio" name="bg-colour" value="blue"		data-themeclass="theme-light"	data-bgclass="bg-blue">
+						<input class="background-radio border-theme js_change-bg bg-orange"		type="radio" name="bg-colour" value="orange"	data-themeclass="theme-light"	data-bgclass="bg-orange">
+					</div>
+
+				</div>
+
+				<div>
+					<button class="js_about-btn text-theme font-bold uppercase leading-3 block">About</button>
+				</div>
+
+			</div>
+
+			<div id="container"></div>
+
+			<div class="flex justify-between items-end p-4 md:p-8 pt-0 fixed md:absolute w-full z-10 bottom-0">
+
+				<div>
+					<button class="js_reset text-theme font-bold uppercase leading-3 block">Reset</button>
+				</div>
+
+				<div>
+					<button class="js_add-shape text-theme font-bold uppercase leading-3 block">Add Shape</button>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="js_about-content hidden">
+
+		<div class="mb-4">
+			<p><strong>Change Colour</strong></p>
+			<p>Left click or double-tap on any shape to change its colour.</p>
+		</div>
+
+		<div class="mb-4">
+			<p><strong>Bring To Front</strong></p>
+			<p>Right click or long-press on any shape to bring it to the front.</p>
+		</div>
+
+		<div class="mb-4">
+			<p><strong>Take a screenshot</strong></p>
+			<p>Capture, save, and share your creations!</p>
+		</div>
+
+		<div class="mb-4">
+			<p><strong>Follow</strong></p>
+			<p><a target="_blank" href="https://twitter.com/geo_shapes_">@geo_shapes_</a></p>
+		</div>
+
+		<div class="mb-4">
+			<p>Designed by <a target="_blank" href="https://twitter.com/georgiaburns_">@georgiaburns_</a></p>
+		</div>
+
+		<div class="mb-4">
+			<p>Built by <a target="_blank" href="https://www.linkedin.com/in/michael-westwood-45869744/">Michael Westwood</a>, using <a target="_blank" href="https://konvajs.org/">Konva</a> and <a target="_blank" href="https://sweetalert2.github.io/">Sweet Alert 2</a>. See the code on <a target="_blank" href="https://github.com/mijewe/draggyshapes">Github</a>.</p>
+		</div>
+	</div>
+
+</body>
+
 </html>
