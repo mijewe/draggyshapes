@@ -1,5 +1,6 @@
 import { Helpers } from "./components/Helpers.js";
 import Konva from "konva";
+import Swal from "sweetalert2";
 
 class DraggyShapes {
   constructor(data = {}) {
@@ -205,7 +206,7 @@ class DraggyShapes {
       return cached;
     }
 
-    return await fetch(`/src/img/paths/${i}.svg`).then((resp) => {
+    return await fetch(`/dist/img/paths/${i}.svg`).then((resp) => {
       return resp.text().then((svg) => {
         sessionStorage.setItem(cacheKey, svg);
         return svg;
@@ -216,22 +217,14 @@ class DraggyShapes {
 
 Helpers.ready(async () => {
   new DraggyShapes();
-});
 
-// window.printCanvas = () => {
-//   var dataUrl = document.querySelector("canvas").toDataURL(); //attempt to save base64 string to server using this var
-//   var windowContent = "<!DOCTYPE html>";
-//   windowContent += "<html>";
-//   windowContent += "<head><title>Print canvas</title></head>";
-//   windowContent += "<body>";
-//   windowContent += '<img src="' + dataUrl + '">';
-//   windowContent += "</body>";
-//   windowContent += "</html>";
-//   var printWin = window.open("", "", "width=340,height=260");
-//   printWin.document.open();
-//   printWin.document.write(windowContent);
-//   printWin.document.close();
-//   printWin.focus();
-//   printWin.print();
-//   printWin.close();
-// };
+  const aboutBtn = document.querySelector(".js_about-btn");
+  const aboutContentEl = document.querySelector(".js_about-content");
+
+  aboutBtn.addEventListener("click", () => {
+    Swal.fire({
+      title: "Welcome to Geo Shapes",
+      html: aboutContentEl.innerHTML,
+    });
+  });
+});
